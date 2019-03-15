@@ -71,7 +71,8 @@ let wordData = {
     correct: 0,
     incorrect: 0,
     total: 0,
-    typed: 0
+    typed: 0,
+    sent: false
 };
 
 //////////////////////////////////////////
@@ -195,6 +196,18 @@ function calculateWPM(data) {
     console.log(wordData);
 }
 
+function logToTypeServlet(url, id) {
+    // request to feedbook servlet here
+    const Http = new XMLHttpRequest();
+    var params = "id=" + id + "&sec=" + wordData.seconds + "&corr=" + wordData.correct + "&incorr=" + wordData.incorrect + "&total=" + wordData.total + "&typed=" + wordData.typed;
+    Http.open("GET", url + "?" + params);
+    Http.send();
+    Http.onreadystatechange = e => {
+        console.log(Http.responseText);
+        wordData.sent = true;
+    };
+}
+
 function typingTest(e) {
     // Char:        Key Code:
     // <space>      32
@@ -225,6 +238,9 @@ function typingTest(e) {
         } else {
             // Display typing test results.
             calculateWPM(wordData);
+            if (!wordData.sent) {
+                logToTypeServlet("http://127.0.0.1:8888/typetest", "8708878");
+            }
         }
     }
 }
