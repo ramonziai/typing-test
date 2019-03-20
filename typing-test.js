@@ -136,6 +136,16 @@ let wordData = {
     sent: false
 };
 
+// number of trials
+const minTrials = 3;
+console.log("location search: " + location.search);
+let urlParams = new URLSearchParams(location.search);
+console.log("URL params object: " + urlParams);
+let currentTrials = 0;
+if (urlParams.has('trials')) {
+	currentTrials = parseInt(urlParams.get('trials'), 10);
+}
+
 //////////////////////////////////////////
 // Initial implementation notes:
 // next word on <space>, if empty, then set value=""
@@ -253,7 +263,7 @@ function calculateWPM(data) {
 function logToTypeServlet(url, id) {
 	// request to feedbook servlet here
     const Http = new XMLHttpRequest();
-    var params = "id=" + id
+    let params = "id=" + id
     + "&sec=" + wordData.seconds
     + "&corr=" + wordData.correct
     + "&incorr=" + wordData.incorrect
@@ -261,9 +271,9 @@ function logToTypeServlet(url, id) {
     + "&typed=" + wordData.typed;
     Http.open("GET", url + "?" + params);
     Http.send();
+    wordData.sent = true;
     Http.onreadystatechange=(e)=>{
     	console.log(Http.responseText);
-    	wordData.sent = true;
     }
 }
 
@@ -298,13 +308,37 @@ function typingTest(e) {
             // Display typing test results.
             calculateWPM(wordData);
             if (!wordData.sent) {
-            	logToTypeServlet("http://127.0.0.1:8888/typetest", "8708878")
+            	logToTypeServlet("http://127.0.0.1:8888/typetest", "8708878");
+            	currentTrials++;
+            	console.log("currentTrials: " + currentTrials);
+            	if (currentTrials < minTrials) {
+            		window.setTimeout(restartTest, 5000);
+            	} else {
+            		window.alert("Du hast den Test " + minTrials + " Mal gemacht - vielen Dank!");
+            	}
+            	
             }
         }
     }
 }
 
+function resetWordData() {
+	wordData = {
+		    seconds: 60,
+		    correct: 0,
+		    incorrect: 0,
+		    total: 0,
+		    typed: 0,
+		    sent: false
+		};
+}
+
 function restartTest() {
+	window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
     $("#typebox")[0].value = "";
-    location.reload();
+    resetWordData();
+    urlParams.set('trials', currentTrials);
+	console.log("URL params object: " + urlParams);
+    location.search = urlParams.toString();
+    //location.reload();
 }
