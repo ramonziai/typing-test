@@ -280,7 +280,7 @@ function resetWordData() {
     };
 }
 
-function reset() {
+function resetTest() {
     $("#typebox")[0].value = "";
     resetWordData();
     urlParams.set('trials', currentTrials);
@@ -291,7 +291,7 @@ function reset() {
 function restartTest() {
     if (currentTrials < minTrials) {
         window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
-        window.setTimeout(reset, 5000);
+        window.setTimeout(resetTest, 5000);
     } else {
         window.alert("Du hast den Test " + minTrials + " Mal gemacht - vielen Dank!");
     }
