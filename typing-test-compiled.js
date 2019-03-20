@@ -75,15 +75,26 @@ let wordData = {
     sent: false
 };
 
-// number of trials
-const minTrials = 3;
+// parse URL parameters
 console.log("location search: " + location.search);
 let urlParams = new URLSearchParams(location.search);
 console.log("URL params object: " + urlParams);
+
+// user id
+let userId = null;
+if (urlParams.has('userId')) {
+    userId = urlParams.get('userId');
+}
+
+// number of trials
+const minTrials = 3;
 let currentTrials = 0;
 if (urlParams.has('trials')) {
     currentTrials = parseInt(urlParams.get('trials'), 10);
 }
+
+// FeedBook servlet location
+const fbServletLocation = "http://127.0.0.1:8888/typetest";
 
 //////////////////////////////////////////
 // Initial implementation notes:
@@ -249,7 +260,7 @@ function typingTest(e) {
             // Display typing test results.
             calculateWPM(wordData);
             if (!wordData.sent) {
-                logToTypeServlet("http://127.0.0.1:8888/typetest", "8708878");
+                logToTypeServlet(fbServletLocation, userId);
                 currentTrials++;
                 console.log("currentTrials: " + currentTrials);
                 if (currentTrials < minTrials) {
