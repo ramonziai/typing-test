@@ -220,7 +220,7 @@ function calculateWPM(data) {
 function logToTypeServlet(url, id) {
     // request to feedbook servlet here
     const Http = new XMLHttpRequest();
-    let params = "id=" + id + "&sec=" + wordData.seconds + "&corr=" + wordData.correct + "&incorr=" + wordData.incorrect + "&total=" + wordData.total + "&typed=" + wordData.typed;
+    let params = "id=" + id + "&sec=" + wordData.seconds + "&corr=" + wordData.correct + "&incorr=" + wordData.incorrect + "&total=" + wordData.total + "&typed=" + wordData.typed + "&trial=" + currentTrials;
     Http.open("GET", url + "?" + params);
     Http.send();
     wordData.sent = true;
@@ -260,14 +260,10 @@ function typingTest(e) {
             // Display typing test results.
             calculateWPM(wordData);
             if (!wordData.sent) {
-                logToTypeServlet(fbServletLocation, userId);
                 currentTrials++;
+                logToTypeServlet(fbServletLocation, userId);
                 console.log("currentTrials: " + currentTrials);
-                if (currentTrials < minTrials) {
-                    window.setTimeout(restartTest, 5000);
-                } else {
-                    window.alert("Du hast den Test " + minTrials + " Mal gemacht - vielen Dank!");
-                }
+                restartTest();
             }
         }
     }
@@ -284,13 +280,20 @@ function resetWordData() {
     };
 }
 
-function restartTest() {
-    window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
+function reset() {
     $("#typebox")[0].value = "";
     resetWordData();
     urlParams.set('trials', currentTrials);
     console.log("URL params object: " + urlParams);
     location.search = urlParams.toString();
-    //location.reload();
+}
+
+function restartTest() {
+    if (currentTrials < minTrials) {
+        window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
+        window.setTimeout(reset, 5000);
+    } else {
+        window.alert("Du hast den Test " + minTrials + " Mal gemacht - vielen Dank!");
+    }
 }
 
