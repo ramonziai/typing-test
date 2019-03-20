@@ -2,15 +2,19 @@
 /* Color Pallet */
 
 /* Base Colors */
-$color-base0: #93C572;    /* Main Primary color */
-$color-base1: #DBF0CD;
+//$color-base0: #93C572;    /* Main Primary color */
+$color-base0: #415A8C;    /* Main Primary color */
+//$color-base1: #DBF0CD;
+$color-base1: #A2A5C2;
+
 $color-base2: #BDE3A5;
 $color-base3: #68A143;
-$color-base4: #467F21;
+//$color-base4: #467F21;
+$color-base4: #A2A5C2;
 
 /* Word Colors */
 $color-current-word: #dddddd;
-$color-correct-word: $color-base0;
+$color-correct-word: #93C572;
 $color-incorrect-word: #e50000;
 /************************************************/
 /* Mixins / Placeholders */
@@ -37,7 +41,7 @@ body {
 }
 
 header {
-    h3 {font-weight: normal;}
+    h3 {font-weight: normal; color: #fff;}
     padding: 1em;
     text-align: center;
 }
@@ -93,7 +97,7 @@ section {
 
 #restart {
     width: 2em;
-    background-color: $color-base3;
+    background-color: $color-base4;
     @extend %type-btn;
     > span {
         display: inline-block;
@@ -131,10 +135,10 @@ footer {
     margin-top: 1em;
     text-align: center;
     font-size: 0.8em;
-    color: #000;
+    color: #fff;
 }
 footer a {
-    color: #000; text-decoration: none;
+    color: #fff; text-decoration: none;
     &:hover {
         text-decoration: underline;
     }
@@ -158,6 +162,6 @@ footer a {
 
 .current-word {background-color: $color-current-word};
 
-.correct-word-c {color: $color-base0;}
+.correct-word-c {color: $color-correct-word;}
 .incorrect-word-c {color: $color-incorrect-word;}
 .incorrect-word-bg {background-color: $color-incorrect-word;}
