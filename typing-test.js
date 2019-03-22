@@ -153,7 +153,8 @@ if (urlParams.has('trials')) {
 }
 
 // FeedBook servlet location
-const fbServletLocation = "http://127.0.0.1:8888/typetest";
+let fbServletLocation = location.protocol + "//" + location.host
+	+ location.pathname.replace(/typing-test.+/, "typetest");
 
 //////////////////////////////////////////
 // Initial implementation notes:

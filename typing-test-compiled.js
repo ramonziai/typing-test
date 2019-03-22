@@ -76,9 +76,7 @@ let wordData = {
 };
 
 // parse URL parameters
-console.log("location search: " + location.search);
 let urlParams = new URLSearchParams(location.search);
-console.log("URL params object: " + urlParams);
 
 // user id
 let userId = null;
@@ -94,7 +92,7 @@ if (urlParams.has('trials')) {
 }
 
 // FeedBook servlet location
-const fbServletLocation = "http://127.0.0.1:8888/typetest";
+let fbServletLocation = location.protocol + "//" + location.host + location.pathname.replace(/typing-test.+/, "typetest");
 
 //////////////////////////////////////////
 // Initial implementation notes:
@@ -259,10 +257,10 @@ function typingTest(e) {
         } else {
             // Display typing test results.
             calculateWPM(wordData);
+            // if we haven't sent this result yet, increment trial counter, send results and restart test
             if (!wordData.sent) {
                 currentTrials++;
                 logToTypeServlet(fbServletLocation, userId);
-                console.log("currentTrials: " + currentTrials);
                 restartTest();
             }
         }
@@ -284,7 +282,6 @@ function resetTest() {
     $("#typebox")[0].value = "";
     resetWordData();
     urlParams.set('trials', currentTrials);
-    console.log("URL params object: " + urlParams);
     location.search = urlParams.toString();
 }
 
@@ -293,7 +290,7 @@ function restartTest() {
         window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
         window.setTimeout(resetTest, 5000);
     } else {
-        window.alert("Du hast den Test " + minTrials + " Mal gemacht - vielen Dank!");
+        window.alert("Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank!");
     }
 }
 
