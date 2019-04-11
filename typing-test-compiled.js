@@ -36,13 +36,18 @@ function shuffle(array) {
     return array;
 }
 
+function clearWordSection() {
+    let wordSection = $("#word-section")[0];
+    wordSection.innerHTML = "";
+    $("#typebox")[0].value = "";
+    return wordSection;
+}
+
 // Add words to word-section
 
 function addWords() {
     // clear existing word-section
-    let wordSection = $("#word-section")[0];
-    wordSection.innerHTML = "";
-    $("#typebox")[0].value = "";
+    let wordSection = clearWordSection();
 
     for (let i = 350; i > 0; i--) {
         let words = shuffle(wordList);
@@ -279,6 +284,7 @@ function resetWordData() {
 }
 
 function resetTest() {
+    $("footer")[0].innerHTML = "";
     $("#typebox")[0].value = "";
     resetWordData();
     urlParams.set('trials', currentTrials);
@@ -287,10 +293,12 @@ function resetTest() {
 
 function restartTest() {
     if (currentTrials < minTrials) {
-        window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
+        //window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
+        $("footer")[0].innerHTML = "Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.";
         window.setTimeout(resetTest, 5000);
     } else {
-        window.alert("Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank!");
+        //window.alert("Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank!");
+        $("footer")[0].innerHTML = "Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank!";
     }
 }
 
