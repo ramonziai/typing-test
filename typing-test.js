@@ -343,11 +343,9 @@ function resetTest() {
 
 function restartTest() {
 	if (currentTrials < minTrials) {
-		//window.alert("Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.");
 		$("footer")[0].innerHTML = "Du hast den Test " + currentTrials + " Mal gemacht - noch " + (minTrials - currentTrials) + " Mal nötig.";
 		window.setTimeout(resetTest, 5000);
 	} else {
-		//window.alert("Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank!");
-		$("footer")[0].innerHTML = "Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank!";
+		$("footer")[0].innerHTML = "Du hast den Test mindestens " + minTrials + " Mal gemacht - vielen Dank! Du kannst die Seite jetzt schließen.";
 	}
 }
