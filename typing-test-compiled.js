@@ -203,12 +203,12 @@ function calculateWPM(data) {
     // template strings are pretty cool
     let results = `<ul id="results">
         <li>WPM: <span class="wpm-value">${wpm}</span></li>
-        <li>Accuracy: <span class="wpm-value">${accuracy}%</span></li>
+        <li>Genauigkeit: <span class="wpm-value">${accuracy}%</span></li>
         <li id="results-stats">
-        Total Words: <span>${total}</span> |
-        Correct Words: <span>${correct}</span> |
-        Incorrect Words: <span>${incorrect}</span> |
-        Characters Typed: <span>${typed}</span>
+        Wörter insgesamt: <span>${total}</span> |
+        Richtige Wörter: <span>${correct}</span> |
+        Falsche Wörter: <span>${incorrect}</span> |
+        Getippte Zeichen: <span>${typed}</span>
         </li>
         </ul>`;
 
