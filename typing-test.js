@@ -233,6 +233,14 @@ function isTimer(seconds) {
         let typingTimer = setInterval(() => {
             if (time <= 0) {
                 clearInterval(typingTimer);
+                // Display typing test results.
+                calculateWPM(wordData);
+                // if we haven't sent this result yet, increment trial counter, send results and restart test
+                if (!wordData.sent) {
+                	currentTrials++;
+                	logToTypeServlet(fbServletLocation, userId);
+                	restartTest();
+                }
             } else {
                 time -= 1;
                 let timePad = (time < 10) ? ("0" + time) : time; // zero padded
@@ -310,15 +318,6 @@ function typingTest(e) {
                 $("#typebox")[0].value = ""; // clear typebox after each word
             }
             wordData.typed += 1; // count each valid character typed
-        }else {
-            // Display typing test results.
-            calculateWPM(wordData);
-            // if we haven't sent this result yet, increment trial counter, send results and restart test
-            if (!wordData.sent) {
-            	currentTrials++;
-            	logToTypeServlet(fbServletLocation, userId);
-            	restartTest();
-            }
         }
     }
 }
