@@ -292,13 +292,8 @@ function logToTypeServlet(url, id) {
 }
 
 function typingTest(e) {
-    // only handle insertText input events
-	e = e || window.event;
-    if (! e.inputType == "insertText") {
-    	return;
-    }
+    e = e || window.event;
     
-    let insertedChar = e.data;
     let word = $("#typebox")[0];
 
     // check if empty (starts with space)
@@ -309,7 +304,7 @@ function typingTest(e) {
         if (isTimer(wordData.seconds)) {
             checkWord(word);    // checks for typing errors while you type
             // <space> submits words
-            if (insertedChar == ' ') {
+            if (word.value.endsWith(" ")) {
                 submitWord(word);  // keep track of correct / incorrect words
                 clearLine();  // get rid of old words
                 $("#typebox")[0].value = ""; // clear typebox after each word
