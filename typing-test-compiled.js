@@ -233,16 +233,13 @@ function logToTypeServlet(url, id) {
 }
 
 function typingTest(e) {
-    // Char:        Key Code:
-    // <space>      32
-    // <backspace>  8
-    // <shift>      16
-    // [A-Z]        65-90
-    // [' "]        222
-
-    // Get key code of current key pressed.
+    // only handle insertText input events
     e = e || window.event;
-    let kcode = e.keyCode;
+    if (!e.inputType == "insertText") {
+        return;
+    }
+
+    let insertedChar = e.data;
     let word = $("#typebox")[0];
 
     // check if empty (starts with space)
@@ -253,7 +250,7 @@ function typingTest(e) {
         if (isTimer(wordData.seconds)) {
             checkWord(word); // checks for typing errors while you type
             // <space> submits words
-            if (kcode == 32) {
+            if (insertedChar == ' ') {
                 submitWord(word); // keep track of correct / incorrect words
                 clearLine(); // get rid of old words
                 $("#typebox")[0].value = ""; // clear typebox after each word
