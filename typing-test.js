@@ -136,6 +136,7 @@ let wordData = {
     incorrect: 0,
     total: 0,
     typed: 0,
+    words: [],
     sent: false
 };
 
@@ -199,6 +200,11 @@ function submitWord(word) {
     }
     // update wordData
     wordData.total = wordData.correct + wordData.incorrect;
+    let wlen = word.value.length;
+    let trimmedWord = word.value.trim();
+    let currentSubstring = current.innerHTML.substring(0, wlen);
+    // log both input and reference word
+    wordData.words.push([trimmedWord, currentSubstring]);
 
     // make the next word the new current-word.
     current.nextSibling.classList.add("current-word");
@@ -291,7 +297,13 @@ function logToTypeServlet(url, id) {
     + "&total=" + wordData.total
     + "&typed=" + wordData.typed
     + "&trial=" + currentTrials;
-    Http.open("GET", url + "?" + params);
+
+    params += "&words=";
+    for (const pair of wordData.words) {
+        params += pair[0] + "," + pair[1] + ";";
+    }
+    
+    Http.open("POST", url + "?" + params);
     Http.send();
     wordData.sent = true;
     Http.onreadystatechange=(e)=>{
@@ -329,6 +341,7 @@ function resetWordData() {
 		    incorrect: 0,
 		    total: 0,
 		    typed: 0,
+		    words: [],
 		    sent: false
 		};
 }
