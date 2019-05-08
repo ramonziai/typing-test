@@ -43,17 +43,20 @@ function clearWordSection() {
 // Add words to word-section
 
 function addWords() {
-    // clear existing word-section
-    let wordSection = clearWordSection();
+    try {
+        // clear existing word-section
+        let wordSection = clearWordSection();
 
-    for (let i = 350; i > 0; i--) {
-        let words = shuffle(wordList);
-        let wordSpan = `<span>${words[i]}</span>`;
-        wordSection.innerHTML += wordSpan;
+        for (let i = 350; i > 0; i--) {
+            let words = shuffle(wordList);
+            let wordSpan = `<span>${words[i]}</span>`;
+            wordSection.innerHTML += wordSpan;
+        }
+        // mark first word as current-word
+        wordSection.firstChild.classList.add("current-word");
+    } catch (err) {
+        $("footer")[0].innerHTML = "Fehler beim Laden - bitte versuche es mit einem neueren Browser (Chrome, Safari oder Firefox).";
     }
-    // mark first word as current-word
-    wordSection.firstChild.classList.add("current-word");
-
     // mark last word with magic-box
     // let magicBox = document.createElement("DIV");
     // magicBox.classList.add("magic-box");
